@@ -1,3 +1,44 @@
+class Player {
+  constructor(name) {
+    this.name = name;
+    this.diceArr = [];
+  }
+}
+
+let playersArray = [];
+
+let numberPlayers;
+let numberPlayersForm = document.querySelector("form");
+function setNumberPlayers(e) {
+  e.preventDefault();
+  numberPlayers = e.target.elements[0].value;
+  console.log(numberPlayers);
+  for (let i = 0; i < numberPlayers; i++) {
+    let newPlayer = new Player("player" + (i + 1));
+    playersArray.push(newPlayer);
+  }
+  console.log(playersArray);
+  initializePlayers();
+}
+numberPlayersForm.addEventListener("submit", setNumberPlayers);
+
+function initializePlayers() {
+  for (let i = 0; i < playersArray.length; i++) {
+    let newRow = document.createElement("div");
+    newRow.classList.add("dice");
+    let parent = document.querySelector("#test");
+    parent.appendChild(newRow);
+    for (let i = 1; i < 7; i++) {
+      let newDie = document.createElement("img");
+      newDie.setAttribute("src", "images/" + i + ".png");
+      newDie.setAttribute("id", "die" + i);
+      newDie.setAttribute("data-number", i);
+      newDie.addEventListener("click", diceClick);
+      newRow.appendChild(newDie);
+    }
+  }
+}
+
 var diceArr = [];
 
 function initializeDice() {
@@ -34,15 +75,24 @@ function updateDiceImg() {
   }
 }
 
-function diceClick(img) {
-  console.log(img);
-  var i = img.getAttribute("data-number");
+//I think we want to pass in the event bc we cant call on this anymore
+function diceClick(e) {
+  console.log();
+  var i = e.target.getAttribute("data-number");
   console.log(i);
-  img.classList.toggle("transparent");
+  e.target.classList.toggle("transparent");
   console.log(diceArr[i].clicked);
+  //Changed double equals of loose comparison to single equals of assignment
   if (diceArr[i].clicked === 0) {
     diceArr[i].clicked = 1;
   } else {
     diceArr[i].clicked = 0;
   }
+}
+
+//*To bank score
+let score = 0;
+function bankScore() {
+  let scoreElement = document.querySelector(".score");
+  console.log(scoreElement.innerText);
 }
