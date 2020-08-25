@@ -14,11 +14,12 @@ function setNumberPlayers(e) {
   numberPlayers = e.target.elements[0].value;
   console.log(numberPlayers);
   for (let i = 0; i < numberPlayers; i++) {
-    let newPlayer = new Player("player" + (i + 1));
+    let newPlayer = new Player(i + 1);
     playersArray.push(newPlayer);
   }
   console.log(playersArray);
   initializePlayers();
+  initializeDice();
 }
 numberPlayersForm.addEventListener("submit", setNumberPlayers);
 
@@ -32,17 +33,19 @@ function initializePlayers() {
     newRow.classList.add("row");
 
     parent.appendChild(newRow);
-    for (let i = 1; i < 7; i++) {
+    for (let j = 1; j < 7; j++) {
       let newDie = document.createElement("img");
-      newDie.setAttribute("src", "images/" + i + ".png");
-      newDie.setAttribute("id", "die" + i);
-      newDie.setAttribute("data-number", i);
+      newDie.setAttribute("src", "images/" + j + ".png");
+      newDie.setAttribute("id", "player" + (i + 1) + "die" + j);
+
+      newDie.setAttribute("data-number", j);
       newDie.addEventListener("click", diceClick);
       newRow.appendChild(newDie);
     }
     let newScoreRow = document.createElement("div");
     newScoreRow.classList.add("row");
     newScoreRow.classList.add("score");
+    newScoreRow.setAttribute("id", "score" + (i + 1));
     newScoreRow.innerText = 0;
     parent.appendChild(newScoreRow);
     let newButtonRow = document.createElement("div");
@@ -52,6 +55,8 @@ function initializePlayers() {
     newRollButton.classList.add("roll");
     // newRollButton.classList.add("column");
     newRollButton.innerText = "Roll Dice";
+    newRollButton.setAttribute("data-number", i);
+    newRollButton.addEventListener("click", rollDice);
     newButtonRow.appendChild(newRollButton);
     parent.appendChild(newButtonRow);
   }
@@ -61,7 +66,7 @@ function initializePlayers() {
 
 function initializeDice() {
   for (let i = 0; i < playersArray.length; i++) {
-    for (j = 0; j < 6; j++) {
+    for (let j = 0; j < 6; j++) {
       playersArray[i].diceArr[j] = {};
       //Added parentheses for correct id from html
       playersArray[i].diceArr[j].id = "die" + (j + 1);
@@ -72,24 +77,31 @@ function initializeDice() {
 }
 
 /*Rolling dice values*/
-function rollDice() {
+function rollDice(e) {
+  let player = parseInt(e.target.getAttribute("data-number")) + 1;
+  console.log(player);
+  let jsPlayer = playersArray[player - 1];
+  console.log(jsPlayer);
   for (var i = 0; i < 6; i++) {
-    if (diceArr[i].clicked === 0) {
-      diceArr[i].value = Math.floor(Math.random() * 6 + 1);
+    if (jsPlayer.diceArr[i].clicked === 0) {
+      jsPlayer.diceArr[i].value = Math.floor(Math.random() * 6 + 1);
     }
   }
-  updateDiceImg();
+  updateDiceImg(jsPlayer);
 }
 
 /*Updating images of dice given values of rollDice*/
-function updateDiceImg() {
+function updateDiceImg(player) {
   var diceImage;
   for (var i = 1; i < 7; i++) {
     //Needed the value of the dice for assigning the picture, not i
-    diceImage = "images/" + diceArr[i].value + ".png";
+    diceImage = "images/" + player.diceArr[i].value + ".png";
     //To check if they were selecting correctly
-    console.log(diceArr[i].id);
-    let selected = document.getElementById(diceArr[i].id);
+    console.log(player.diceArr[i].id);
+    console.log(player.name);
+    let selected = document.getElementById(
+      "player" + player.name + player.diceArr[i].id
+    );
     console.log(selected);
     selected.setAttribute("src", diceImage);
   }
