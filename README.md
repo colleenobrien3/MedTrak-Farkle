@@ -16,4 +16,4 @@ Click [here](https://colleenobrien3.github.io/MedTrak-Farkle/) to view the deplo
 
 ## Next Steps
 
-Next, I would add functionality for banking the score! I would need to write logic for saving each player's score. I would also need to write logic to decide who wins the game. And of course, I would need to add styling to make it look nicer!
+Next, I would add functionality for banking the score! I would need to write logic for saving each player's score. I would also need to write logic to decide who wins the game. And of course, I would need to add styling to make it look nicer! (Also, there is a bug keeping the first die from shuffling, so I would go in and fix that ASAP.)
