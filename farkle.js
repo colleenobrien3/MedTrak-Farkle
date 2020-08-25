@@ -24,9 +24,13 @@ numberPlayersForm.addEventListener("submit", setNumberPlayers);
 
 function initializePlayers() {
   for (let i = 0; i < playersArray.length; i++) {
+    let broken = document.createElement("br");
+    let parent = document.querySelector("#test");
+    parent.appendChild(broken);
     let newRow = document.createElement("div");
     newRow.classList.add("dice");
-    let parent = document.querySelector("#test");
+    newRow.classList.add("row");
+
     parent.appendChild(newRow);
     for (let i = 1; i < 7; i++) {
       let newDie = document.createElement("img");
@@ -36,18 +40,34 @@ function initializePlayers() {
       newDie.addEventListener("click", diceClick);
       newRow.appendChild(newDie);
     }
+    let newScoreRow = document.createElement("div");
+    newScoreRow.classList.add("row");
+    newScoreRow.classList.add("score");
+    newScoreRow.innerText = 0;
+    parent.appendChild(newScoreRow);
+    let newButtonRow = document.createElement("div");
+    newButtonRow.classList.add("row");
+    let newRollButton = document.createElement("button");
+    newRollButton.classList.add("button");
+    newRollButton.classList.add("roll");
+    // newRollButton.classList.add("column");
+    newRollButton.innerText = "Roll Dice";
+    newButtonRow.appendChild(newRollButton);
+    parent.appendChild(newButtonRow);
   }
 }
 
-var diceArr = [];
+// var diceArr = [];
 
 function initializeDice() {
-  for (i = 0; i < 6; i++) {
-    diceArr[i] = {};
-    //Added parentheses for correct id from html
-    diceArr[i].id = "die" + (i + 1);
-    diceArr[i].value = i + 1;
-    diceArr[i].clicked = 0;
+  for (let i = 0; i < playersArray.length; i++) {
+    for (j = 0; j < 6; j++) {
+      playersArray[i].diceArr[j] = {};
+      //Added parentheses for correct id from html
+      playersArray[i].diceArr[j].id = "die" + (j + 1);
+      playersArray[i].diceArr[j].value = j + 1;
+      playersArray[i].diceArr[j].clicked = 0;
+    }
   }
 }
 
